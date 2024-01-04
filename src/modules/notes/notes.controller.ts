@@ -12,7 +12,7 @@ import { Notes } from './Schemas/notes.scehma';
 import { CreateNoteDto } from './Dto/create-note.dto';
 import { UpdateNoteDto } from './Dto/update-note.dto';
   
-  @Controller('books')
+  @Controller('notes')
   export class NoteController {
     constructor(private notesService: NoteService) {}
   
@@ -22,7 +22,7 @@ import { UpdateNoteDto } from './Dto/update-note.dto';
     }
   
     @Post()
-    async createBook(
+    async createNote(
       @Body()
       book: CreateNoteDto,
     ): Promise<Notes> {
@@ -30,7 +30,7 @@ import { UpdateNoteDto } from './Dto/update-note.dto';
     }
   
     @Get(':id')
-    async getBook(
+    async getNote(
       @Param('id')
       id: string,
     ): Promise<Notes> {
@@ -38,7 +38,7 @@ import { UpdateNoteDto } from './Dto/update-note.dto';
     }
   
     @Put(':id')
-    async updateBook(
+    async updateNoteById(
       @Param('id')
       id: string,
       @Body()
@@ -48,7 +48,7 @@ import { UpdateNoteDto } from './Dto/update-note.dto';
     }
   
     @Delete(':id')
-    async deleteBook(
+    async deleteNoteById(
       @Param('id')
       id: string,
     ): Promise<Notes> {

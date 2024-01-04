@@ -10,8 +10,7 @@ import { NoteModule } from 'modules/notes/notes.module';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    MongooseModule.forRoot('mongodb://admin:admin@localhost:30000',{
-      dbName:'notes-rest-api'}),
+    MongooseModule.forRoot('mongodb://127.0.0.1:27017/notes'),
     NoteModule,
   ],
   controllers: [],
