@@ -11,9 +11,25 @@ export class NoteService {
     private noteModel: mongoose.Model<Notes>,
   ) {}
 
-  async findAll(): Promise<Notes[]> {
-    const books = await this.noteModel.find();
-    return books;
+  async findAll(query): Promise<Notes[]> {
+    const resPerPage = 2;
+    const currentPage = Number(query.page) || 1;
+    const skip = resPerPage * (currentPage - 1);
+
+    const keyword = query.keyword
+      ? {
+          title: {
+            $regex: query.keyword,
+            $options: 'i',
+          },
+        }
+      : {};
+
+    const notes = await this.noteModel
+      .find({ ...keyword })
+      .limit(resPerPage) // limits the no of page
+      .skip(skip); // skips the no of results
+    return notes;
   }
 
   async create(book: Notes): Promise<Notes> {

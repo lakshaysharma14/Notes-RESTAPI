@@ -31,10 +31,7 @@ export const SWAGGER_API_CURRENT_VERSION = "1.0.0";
 async function bootstrap() {
 
   const app = await NestFactory.create<NestApplication>(
-    AppModule,
-    {
-      logger: ['error', 'warn'],
-    }  
+    AppModule
   );
 
   const options = new DocumentBuilder()

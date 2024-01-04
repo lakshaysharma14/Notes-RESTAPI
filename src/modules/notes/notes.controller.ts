@@ -6,19 +6,22 @@ import {
     Param,
     Post,
     Put,
+    Query,
   } from '@nestjs/common';
 import { NoteService } from './notes.service';
 import { Notes } from './Schemas/notes.scehma';
 import { CreateNoteDto } from './Dto/create-note.dto';
 import { UpdateNoteDto } from './Dto/update-note.dto';
+
   
   @Controller('notes')
   export class NoteController {
     constructor(private notesService: NoteService) {}
   
     @Get()
-    async getAllBooks(): Promise<Notes[]> {
-      return this.notesService.findAll();
+    async getAllNotes(@Query() query): Promise<Notes[]> {
+      console.log(query);
+      return this.notesService.findAll(query);
     }
   
     @Post()
