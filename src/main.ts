@@ -31,11 +31,10 @@ export const SWAGGER_API_CURRENT_VERSION = "1.0.0";
 async function bootstrap() {
 
   const app = await NestFactory.create<NestApplication>(
-    AppModule,
-    {
-      logger: ['error', 'warn'],
-    }  
+    AppModule
   );
+
+  app.useGlobalPipes(new ValidationPipe());
 
   const options = new DocumentBuilder()
     .setTitle(SWAGGER_API_NAME)

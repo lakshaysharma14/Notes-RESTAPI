@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Notes } from './Schemas/notes.scehma';
@@ -11,9 +11,25 @@ export class NoteService {
     private noteModel: mongoose.Model<Notes>,
   ) {}
 
-  async findAll(): Promise<Notes[]> {
-    const books = await this.noteModel.find();
-    return books;
+  async findAll(query): Promise<Notes[]> {
+    const resPerPage = 2;
+    const currentPage = Number(query.page) || 1;
+    const skip = resPerPage * (currentPage - 1);
+
+    const keyword = query.keyword
+      ? {
+          title: {
+            $regex: query.keyword,
+            $options: 'i',
+          },
+        }
+      : {};
+
+    const notes = await this.noteModel
+      .find({ ...keyword })
+      .limit(resPerPage) // limits the no of page
+      .skip(skip); // skips the no of results
+    return notes;
   }
 
   async create(book: Notes): Promise<Notes> {
@@ -22,6 +38,12 @@ export class NoteService {
   }
 
   async findById(id: string): Promise<Notes> {
+    const isValidId = mongoose.isValidObjectId(id);
+
+    if (!isValidId) {
+      throw new BadRequestException('Please enter correct id.');
+    }
+
     const book = await this.noteModel.findById(id);
 
     if (!book) {
