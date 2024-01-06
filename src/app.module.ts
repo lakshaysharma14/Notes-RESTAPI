@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { url } from 'inspector';
 import { NoteModule } from 'modules/notes/notes.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { NoteModule } from 'modules/notes/notes.module';
     }),
     MongooseModule.forRoot('mongodb://127.0.0.1:27017/notes'),
     NoteModule,
+    AuthenticationModule,
   ],
   controllers: [],
   providers: [],
