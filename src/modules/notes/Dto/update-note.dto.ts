@@ -1,4 +1,5 @@
-import { IsOptional, IsString } from "class-validator";
+import { User } from "authentication/schemas/user.schema";
+import { IsEmpty, IsOptional, IsString } from "class-validator";
 
 export class UpdateNoteDto {
   @IsOptional()
@@ -12,4 +13,7 @@ export class UpdateNoteDto {
   @IsOptional()
   @IsString()
   readonly author: string;
+
+  @IsEmpty({ message: 'You cannot pass user id' })
+  readonly user: User;
 }

@@ -7,11 +7,14 @@ import {
     Post,
     Put,
     Query,
+    Req,
+    UseGuards,
   } from '@nestjs/common';
 import { NoteService } from './notes.service';
 import { Notes } from './Schemas/notes.scehma';
 import { CreateNoteDto } from './Dto/create-note.dto';
 import { UpdateNoteDto } from './Dto/update-note.dto';
+import { AuthGuard } from '@nestjs/passport';
 
   
   @Controller('notes')
@@ -25,11 +28,15 @@ import { UpdateNoteDto } from './Dto/update-note.dto';
     }
   
     @Post()
+    @UseGuards(AuthGuard())
     async createNote(
       @Body()
       book: CreateNoteDto,
+
+      @Req() req
     ): Promise<Notes> {
-      return this.notesService.create(book);
+      console.log(req.user);
+      return this.notesService.create(book,req.user);
     }
   
     @Get(':id')
